@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tiankai.ssm.mapper.StudentMapper">
+    <resultMap id="studentMap" type="com.tiankai.ssm.bean.Student">
+        <id column="stu_id" property="stuId"/>
+        <result column="name" property="name"/>
+        <result column="gender" property="gender"/>
+        <result column="age" property="age"/>
+    </resultMap>
+
+
+    <insert id="addStudent">
+        INSERT INTO student_list(`stu_id`, `name`, `gender`, `age`)
+        VALUES (#{stuId}, #{name}, #{gender}, #{age})
+    </insert>
+
+    <delete id="deleteStudentById">
+        DELETE
+        FROM student_list
+        WHERE `stu_id` = #{stuId}
+    </delete>
+
+    <update id="updateStudentInfoById">
+        UPDATE student_list
+        SET `name`= #{name},
+            `gender`= #{gender},
+            `age`= #{age}
+        WHERE `stu_id` = #{stuId}
+    </update>
+
+    <select id="showAllStudents" resultMap="studentMap">
+        SELECT stu_id stuId, `name` name, gender gender, age age
+        FROM student_list
+    </select>
+
+    <!--queryPageItemsWithinRange没有写，可以改成用pageHelper实现-->
+    <select id="queryPageItemsWithinRange" resultMap="studentMap">
+        SELECT stu_id, `name`, gender, age
+        FROM student_list
+        LIMIT #{begin}, #{pageSize}
+    </select>
+
+    <select id="queryPageItemsWithinRangeAndAge" resultMap="studentMap">
+        SELECT stu_id, `name`, gender, age
+        FROM student_list
+        WHERE `age` BETWEEN #{minAge} AND #{maxAge}
+        LIMIT #{begin}, #{pageSize}
+    </select>
+
+    <select id="showStudentById" resultMap="studentMap">
+        SELECT stu_id, `name`, gender, age
+        FROM student_list
+        WHERE `stu_id` = #{stuId}
+    </select>
+
+    <select id="queryStudentsCount" resultType="INTEGER">
+        SELECT COUNT(*)
+        FROM student_list
+    </select>
+
+    <select id="queryStudentsCountWithinAge" resultType="INTEGER">
+        SELECT COUNT(*)
+        FROM student_list
+        WHERE `age` BETWEEN #{minAge} AND #{maxAge}
+    </select>
+
+    <delete id="deleteChosenStudents">
+        DELETE
+        FROM student_list
+        WHERE stu_id IN
+        <foreach collection="stuIds" item="stuId" open="(" separator="," close=")">
+            #{stuId}
+        </foreach>
+    </delete>
+</mapper>

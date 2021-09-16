@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="http://localhost:8080/studentListWeb/">
+
+    <link rel="stylesheet" th:href="@{/static/bootstrap-4.6.0-dist/css/bootstrap.min.css}">
+    <script th:src="@{/static/script/jquery-3.6.0.me.js}"></script>
+    <script th:src="@{/static/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/static/script/vue.js}"></script>
+    <script th:src="@{/static/script/index.js}"></script>
+
+    <script th:src="@{/static/script/register.js}"></script>
+    <title>注册</title>
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="jumbotron">
+                <h1 class="display-4">注册账户</h1>
+                <!-- <p class="lead">Subtitle</p>
+                <hr class="my-4">
+                <p>Content</p> -->
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-2">
+
+        </div>
+
+        <div class="col">
+            <form method="POST" th:action="@{/register}">
+                <!--使用POST方法提交，用于注册用户-->
+                <!--                <input type="hidden" value="addUser" name="action">-->
+
+                <!--alert对话框默认不显示。有需要时由js控制其显示-->
+                <div class="alert alert-danger" role="alert" id="alert_message" style="display: none">
+
+                </div>
+
+                <div class="input-group pb-4">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="username">用户名</span>
+                    </div>
+                    <input class="form-control" type="text" name="username" id="input_username" placeholder="请输入用户名"
+                           required>
+                </div>
+
+                <div class="input-group pb-4">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="password">密码</span>
+                    </div>
+                    <input class="form-control" type="password" name="password" placeholder="请输入密码" id="input_password"
+                           required>
+                </div>
+
+                <div class="input-group pb-4">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="confirm-password">确认密码</span>
+                    </div>
+                    <input class="form-control" type="password" name="confirm-password" placeholder="请再次输入您的密码"
+                           id="input_confirm_password" required>
+                </div>
+
+                <div class="input-group pb-4">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="email">电子邮箱</span>
+                    </div>
+                    <input class="form-control" type="text" name="email" placeholder="请输入您的邮箱地址" required>
+                </div>
+
+                <button class="btn btn-primary float-right" type="submit" id="btn_submit">提交</button>
+            </form>
+        </div>
+
+        <div class="col-2">
+
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

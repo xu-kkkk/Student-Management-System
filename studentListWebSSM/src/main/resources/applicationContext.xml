@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd  http://www.springframework.org/schema/tx https://www.springframework.org/schema/tx/spring-tx.xsd http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd">
+    <!--Spring配置文件-->
+
+    <!--由Spring管理所有的业务逻辑组件-->
+    <context:component-scan base-package="com.tiankai.ssm">
+        <!-- 除了控制器，其他都扫描 -->
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!--引入Druid配置文件-->
+    <context:property-placeholder location="classpath:druidConfig.properties"/>
+
+    <!--  Spring用来控制业务逻辑，包括数据源, AOP, 事务控制等  -->
+    <bean class="com.alibaba.druid.pool.DruidDataSource" id="dataSource" destroy-method="close">
+        <property name="url" value="${jdbc.url}"/>
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+    <!--Spring事务管理-->
+    <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="dataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean class="org.springframework.jdbc.core.JdbcTemplate" id="jdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--开启事务注解-->
+    <tx:annotation-driven transaction-manager="dataSourceTransactionManager"/>
+
+    <!--
+            整合mybatis, 以前这里写的是jdbcTemplate
+            目的:
+                1. Spring管理所有组件，包括mapper的实现类
+                        service层调用dao, 可以用@Autowired, 自动注入mapper
+                2. Spring用来管理事务，Spring声明式事务
+        -->
+
+    <!--  让Spring的IOC一启动就代替我们创建SqlSessionFactoryBean  -->
+    <bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!-- 指定mybatis全局配置文件的位置 -->
+        <property name="configLocation" value="classpath:mybatisConfig.xml"/>
+
+        <!-- 指定mapper.xml的位置 -->
+        <property name="mapperLocations" value="classpath:mybatis.mapper/*.xml"/>
+    </bean>
+
+    <!-- 配置一个可以进行批量操作的SqlSession对象 -->
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactoryBean"/>
+        <constructor-arg name="executorType" value="BATCH"/>
+    </bean>
+
+    <!--
+          扫描所有Mapper接口的实现，让这些mapper能自动注入
+          base-package: 指定mapper接口的包名
+      -->
+    <mybatis-spring:scan base-package="com.tiankai.ssm.mapper"/>
+</beans>

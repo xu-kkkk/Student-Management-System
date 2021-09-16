@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="http://localhost:8080/studentListWeb/">
+
+    <link rel="stylesheet" th:href="@{/static/bootstrap-4.6.0-dist/css/bootstrap.min.css}">
+    <script th:src="@{/static/script/jquery-3.6.0.me.js}"></script>
+    <script th:src="@{/static/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/static/script/vue.js}"></script>
+    <title>修改学生信息</title>
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="jumbotron">
+                <h1 class="display-4 text-center">修改学生信息</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+
+            <form method="POST" th:action="@{/updateStudent}">
+                <table class="table table-light">
+                    <thead class="thead-light">
+                    <tr>
+                        <th>姓名</th>
+                        <th>性别</th>
+                        <th>年龄</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <input type="hidden" name="action" value="editStudent">
+
+                    <input type="hidden" name="stuId" th:value="${student.stuId}">
+                    <!--                    <input type="hidden" name="pageUrl" th:value="${requestScope.pageUrl}">-->
+                    <input type="hidden" name="pageNo" th:value="${pageNo}">
+                    <tr>
+                        <td>
+                            <input class="form-control" type="text" name="name" th:value="${student.name}">
+                        </td>
+                        <td>
+                            <input class="form-control" type="text" name="gender"
+                                   th:value="${student.gender}">
+                        </td>
+                        <td>
+                            <input class="form-control" type="text" name="age" th:value="${student.age}">
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th colspan="2"></th>
+                        <th class="text-right">
+                            <button class="btn btn-primary" type="submit">提交</button>
+                        </th>
+                    </tr>
+                    </tfoot>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

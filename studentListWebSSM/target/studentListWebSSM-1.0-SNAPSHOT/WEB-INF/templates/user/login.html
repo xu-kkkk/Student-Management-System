@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" th:href="@{/static/bootstrap-4.6.0-dist/css/bootstrap.min.css}">
+    <script th:src="@{/static/script/jquery-3.6.0.me.js}"></script>
+    <script th:src="@{/static/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/static/script/vue.js}"></script>
+    <script th:src="@{/static/script/register.js}"></script>
+    <title>登录</title>
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="jumbotron">
+                <h1 class="display-4">登录</h1>
+                <!-- <p class="lead">Subtitle</p>
+                <hr class="my-4">
+                <p>Content</p> -->
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-2">
+
+        </div>
+
+        <div class="col">
+            <form method="post" th:action="@{/login}">
+                <input type="hidden" name="action" value="login">
+
+                <div class="input-group pb-4">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="username">用户名</span>
+                    </div>
+                    <input class="form-control" type="text" name="username" placeholder="请输入用户名">
+                </div>
+
+                <div class="input-group pb-4">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="password">密码</span>
+                    </div>
+                    <input class="form-control" type="password" name="password" placeholder="请输入密码">
+                </div>
+
+                <button class="btn btn-primary float-right" type="submit">提交</button>
+            </form>
+        </div>
+
+        <div class="col-2">
+
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
